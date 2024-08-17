@@ -15,6 +15,7 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float groundDistance = 0.2f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float raycastLength = 0.6f;
+    [SerializeField] private float sphereCastSize = 0.2f;
     [SerializeField] private Transform bodyRaycastOrigin;
     [SerializeField] private List<Transform> raycastOrigins = new List<Transform>();
     
@@ -119,8 +120,8 @@ public class CharacterMovement : MonoBehaviour
 
         foreach (Transform origin in raycastOrigins)
         {
-            Ray ray = new Ray(origin.position, origin.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, raycastLength, groundLayer))
+            //if (Physics.SphereCast(ray, out RaycastHit hit, raycastLength, groundLayer))
+            if (Physics.SphereCast(origin.position, sphereCastSize, origin.forward, out RaycastHit hit, raycastLength, groundLayer))
             {
 #if UNITY_EDITOR
                 Debug.DrawRay(origin.position, origin.forward * raycastLength);
@@ -152,4 +153,20 @@ public class CharacterMovement : MonoBehaviour
         transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
     #endregion
+
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        foreach (Transform origin in raycastOrigins)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(origin.position, sphereCastSize);
+            Gizmos.DrawWireSphere(origin.position + origin.forward * raycastLength, sphereCastSize);
+
+            // Draw a line between the spheres
+            Gizmos.DrawLine(origin.position, origin.position + origin.forward * raycastLength);
+        }
+    }
+#endif
 }
