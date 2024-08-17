@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using roarke;
+using roarke.interaction;
 
 public class CharacterMovement : MonoBehaviour
 {
