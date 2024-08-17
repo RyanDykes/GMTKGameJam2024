@@ -47,8 +47,7 @@ public class CharacterMovement : MonoBehaviour
             Move();
             Rotate();
 
-            //print("GetAverageDistance: " + GetAverageDistance());
-            //LimitDistanceFromSurface();
+            LimitDistanceFromSurface();
         }
 
         //If no ground is hit then fallback to basic movement and apply gravity
@@ -92,13 +91,17 @@ public class CharacterMovement : MonoBehaviour
 
     private void LimitDistanceFromSurface()
     {
-        float currentDistance = GetAverageDistance();
-
-        // A small threshold to avoid jitter
-        if (Mathf.Abs(currentDistance - groundDistance) > 0.01f)
+        Ray ray = new Ray(bodyRaycastOrigin.position, bodyRaycastOrigin.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, groundLayer))
         {
-            Vector3 targetPosition = transform.localPosition + transform.up * (groundDistance - currentDistance);
-            transform.localPosition = targetPosition;
+            float currentDistance = hit.distance;
+
+            // Adjust the character's position to maintain the desired distance
+            if (Mathf.Abs(currentDistance - groundDistance) > 0.01f) // A small threshold to avoid jitter
+            {
+                Vector3 targetPosition = transform.position + transform.up * (groundDistance - currentDistance);
+                transform.position = Vector3.Lerp(transform.position, targetPosition, 10f * Time.deltaTime);
+            }
         }
     }
 
@@ -112,6 +115,7 @@ public class CharacterMovement : MonoBehaviour
     {
         Vector3 surfaceNormal = transform.up;
         Vector3 averageNormal = Vector3.zero;
+        float averageNormalCount = 0;
 
         foreach (Transform origin in raycastOrigins)
         {
@@ -122,40 +126,16 @@ public class CharacterMovement : MonoBehaviour
                 Debug.DrawRay(origin.position, origin.forward * raycastLength);
 #endif
                 averageNormal += hit.normal;
+                averageNormalCount++;
             }
         }
 
         if (averageNormal.magnitude > 0)
-            surfaceNormal = averageNormal / raycastOrigins.Count;
+            surfaceNormal = averageNormal / averageNormalCount;
 
         surfaceNormal = surfaceNormal.normalized;
         return surfaceNormal;
     }
-
-    private float GetAverageDistance()
-    {
-        float surfaceDistance = groundDistance;
-        float averageDistance = 0f;
-
-        foreach (Transform origin in raycastOrigins)
-        {
-            Ray ray = new Ray(origin.position, origin.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, raycastLength, groundLayer))
-            {
-#if UNITY_EDITOR
-                Debug.DrawRay(origin.position, origin.forward * raycastLength);
-#endif
-                averageDistance += hit.distance;
-            }
-        }
-
-        if (averageDistance > 0)
-            surfaceDistance = averageDistance / raycastOrigins.Count;
-
-        return surfaceDistance;
-    }
-
-
 
     #region Fallback Movement
     private float gravity = -10f;
