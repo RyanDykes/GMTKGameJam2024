@@ -18,21 +18,25 @@ public class RigidbodyCharacterController : MonoBehaviour
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 0.15f;
 
+    private Camera mainCam = null;
     private Rigidbody rbody = null;
-    private Vector2 moveDirection = Vector2.zero;
+    private Vector3 moveDirection = Vector2.zero;
+    private float horizontal = 0f;
+    private float vertical = 0f;
     private const float axisInputRange = 0.2f;
 
     private void Awake()
     {
+        mainCam = Camera.main;
         rbody = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        moveDirection.x = Input.GetAxisRaw("Horizontal");
-        moveDirection.y = Input.GetAxisRaw("Vertical");
-        moveDirection.Normalize();
-        moveDirection *= speed;
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
+
+        moveDirection = new Vector3(horizontal, 0f, vertical);
 
         Ray ray = new Ray(groundRaycastOrigin.position, -transform.up);
         RaycastHit hit;
@@ -46,35 +50,15 @@ public class RigidbodyCharacterController : MonoBehaviour
             Quaternion toGroundRotation = Quaternion.FromToRotation(transform.up, groundNormal) * transform.rotation;
             transform.rotation = toGroundRotation;
 
-            //Cross
-            //moveDirection.y *= Vector3.Cross(transform.right, groundNormal);
-            //moveDirection.x *= Vector3.Cross(transform.right, groundNormal).normalized;
+            transform.localPosition += transform.forward * moveDirection.magnitude * speed * Time.deltaTime;
+
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection, transform.up);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
-    }
-
-    private float maxSpeed = 2f;
-    private void FixedUpdate()
-    {
-        if (moveDirection.magnitude >= axisInputRange)
-            rbody.AddForce(new Vector3(moveDirection.x, 0f, moveDirection.y), ForceMode.VelocityChange);
         else
-            rbody.velocity = new Vector3(0f, rbody.velocity.y, 0f);
-
-        rbody.AddForce(-transform.up * gravity, ForceMode.Force);
-
-        float xClamped = Mathf.Clamp(rbody.velocity.x, -maxSpeed, maxSpeed);
-        float yClamped = Mathf.Clamp(rbody.velocity.y, -40f, 40f);
-        float zClamped = Mathf.Clamp(rbody.velocity.z, -maxSpeed, maxSpeed);
-        rbody.velocity = new Vector3(xClamped, yClamped, zClamped);
-    }
-
-    private void LateUpdate()
-    {
-        if (moveDirection.magnitude > 0)
         {
-            Vector3 lookDirection = new Vector3(moveDirection.x, transform.position.y, moveDirection.y);
-            Quaternion targetRotation = Quaternion.LookRotation(lookDirection, transform.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            Vector3 previousDirection = (transform.forward * vertical + transform.right * horizontal).normalized;
+            transform.position += previousDirection * speed * Time.deltaTime;
         }
     }
 }
