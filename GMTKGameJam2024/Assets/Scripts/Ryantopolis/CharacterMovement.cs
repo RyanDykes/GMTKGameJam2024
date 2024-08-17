@@ -15,6 +15,7 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private Transform groundRaycastOrigin;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float raycastLength = 0.8f;
+    [SerializeField] private float groundDistance = 0.8f;
 
     [Header("Movement")]
     [SerializeField] private float speed = 10f;
@@ -44,7 +45,7 @@ public class CharacterMovement : MonoBehaviour
         {
             Debug.DrawRay(hit.point, hit.normal * raycastLength);
             
-            MoveAlongSurface(hit.normal);
+            MoveAlongSurface(hit.point, hit.normal);
         }
         else
         {
@@ -57,13 +58,13 @@ public class CharacterMovement : MonoBehaviour
         rbody.velocity = Vector3.zero;
     }
 
-    private void MoveAlongSurface(Vector3 surfaceNormal)
+    private void MoveAlongSurface(Vector3 surfacePoint, Vector3 surfaceNormal)
     {
-        Move();
+        Move(surfacePoint, surfaceNormal);
         Rotate(surfaceNormal);
     }
 
-    private void Move()
+    private void Move(Vector3 surfacePoint, Vector3 surfaceNormal)
     {
         if (inputDirection.magnitude > 0)
         {
@@ -79,9 +80,13 @@ public class CharacterMovement : MonoBehaviour
 
         if (inputDirection.magnitude > 0)
         {
-            //Vector3 localMoveDirection = transform.InverseTransformDirection(inputDirection);
-            //inputDirection = Vector3.ProjectOnPlane(localMoveDirection, transform.up);
-            Quaternion targetRotation = Quaternion.LookRotation(inputDirection, transform.up);
+            //Quaternion testRotation = Quaternion.FromToRotation(surfaceNormal, Vector3.up);
+
+
+            //Vector3 localDirection = transform.InverseTransformDirection(inputDirection);
+            Debug.DrawRay(groundRaycastOrigin.position, transform.forward * 2f, color: Color.blue);
+            Quaternion targetRotation = Quaternion.LookRotation(inputDirection, transform.up).normalized;
+            
             transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
