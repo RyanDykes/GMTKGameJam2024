@@ -14,14 +14,17 @@ public class CharacterMovement : MonoBehaviour
     [Header("Rayacsts")]
     [SerializeField] private Transform groundRaycastOrigin;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float raycastLength = 0.8f;
+    [SerializeField] private float raycastLength = 0.6f;
+    [SerializeField] private float groundDistance = 0.2f;
 
     [Header("Movement")]
-    [SerializeField] private float speed = 10f;
+    [SerializeField] private float speed = 2f;
 
     [Header("Rotation")]
-    [SerializeField] private float rotationSpeed = 0.15f;
+    [SerializeField] private float rotationSpeed = 6f;
+    [SerializeField] private AnimationCurve additionalAngleCurve = null;
 
+    private Camera mainCam = null;
     private Rigidbody rbody = null;
     private Vector3 inputDirection = Vector3.zero;
     private float horizontal = 0f;
@@ -29,6 +32,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void Awake()
     {
+        mainCam = Camera.main;
         rbody = GetComponent<Rigidbody>();
     }
 
@@ -38,13 +42,11 @@ public class CharacterMovement : MonoBehaviour
         vertical = Input.GetAxisRaw("Vertical");
         inputDirection = new Vector3(horizontal, 0f, vertical);
         
-
         Ray ray = new Ray(groundRaycastOrigin.position, -transform.up);
         if (Physics.Raycast(ray, out RaycastHit hit, raycastLength, groundLayer))
         {
             Debug.DrawRay(hit.point, hit.normal * raycastLength);
-            
-            MoveAlongSurface(hit.normal);
+            MoveAlongSurface(hit.point, hit.normal);
         }
         else
         {
@@ -57,32 +59,50 @@ public class CharacterMovement : MonoBehaviour
         rbody.velocity = Vector3.zero;
     }
 
-    private void MoveAlongSurface(Vector3 surfaceNormal)
+    private void MoveAlongSurface(Vector3 surfacePoint, Vector3 surfaceNormal)
     {
-        Move();
-        Rotate(surfaceNormal);
+        if (inputDirection.magnitude > 0)
+        {
+            Move();
+            Rotate(surfaceNormal);
+
+            LimitDistanceFromSurface();
+        }
     }
 
     private void Move()
     {
-        if (inputDirection.magnitude > 0)
-        {
-            Vector3 moveDirection = TryCarry();
-            transform.localPosition += moveDirection * speed * Time.deltaTime;
-        }
+        Vector3 moveDirection = TryCarry();
+        transform.localPosition += moveDirection * speed * Time.deltaTime;
     }
 
     private void Rotate(Vector3 surfaceNormal)
     {
         Quaternion toGroundRotation = Quaternion.FromToRotation(transform.up, surfaceNormal) * transform.rotation;
-        transform.localRotation = toGroundRotation;
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, toGroundRotation, rotationSpeed * Time.deltaTime);
 
-        if (inputDirection.magnitude > 0)
+        Quaternion surfaceRotation = Quaternion.FromToRotation(Vector3.up, surfaceNormal);
+        Vector3 rotatedDirection = surfaceRotation * inputDirection;
+        Vector3 moveDirection = rotatedDirection.normalized;
+
+        Quaternion targetRotation = Quaternion.LookRotation(moveDirection, transform.up).normalized;
+        Debug.DrawRay(groundRaycastOrigin.position, moveDirection, color: Color.blue);
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    private void LimitDistanceFromSurface()
+    {
+        Ray ray = new Ray(groundRaycastOrigin.position, -transform.up);
+        if (Physics.Raycast(ray, out RaycastHit hit, raycastLength, groundLayer))
         {
-            //Vector3 localMoveDirection = transform.InverseTransformDirection(inputDirection);
-            //inputDirection = Vector3.ProjectOnPlane(localMoveDirection, transform.up);
-            Quaternion targetRotation = Quaternion.LookRotation(inputDirection, transform.up);
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);
+            float currentDistance = hit.distance;
+
+            // A small threshold to avoid jitter
+            if (Mathf.Abs(currentDistance - groundDistance) > 0.01f)
+            {
+                Vector3 targetPosition = transform.localPosition + transform.up * (groundDistance - currentDistance);
+                transform.localPosition = targetPosition;
+            }
         }
     }
 
