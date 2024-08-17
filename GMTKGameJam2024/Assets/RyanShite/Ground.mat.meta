@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:GMTKGameJam2024/Assets/Models/TaraTesting/Bench.mat.meta
+guid: 61f8f14c9b8d56f449a69d4d8b414f69
+========
 guid: eab07b1bf3805764f972bc28a5952902
+>>>>>>>> main:GMTKGameJam2024/Assets/RyanShite/Ground.mat.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 2100000
