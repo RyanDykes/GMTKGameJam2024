@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2612480847806531398}
   - component: {fileID: 314925962752803342}
   - component: {fileID: 3686256166031796327}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pfb_cake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2554857, y: 1.2554857, z: 1.2554857}
+  m_LocalScale: {x: 1.6217108, y: 1.6217108, z: 1.6217108}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
