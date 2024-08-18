@@ -33,6 +33,10 @@ namespace roarke.interaction
             }
         }
 
+        public bool IsEncumbered()
+        {
+            return CurrentlyHeldBody != null && CurrentlyHeldBody.Weight + 2 >= Strength;
+        }
         //Pick up the closest overlapping rigidbody
         void Interact()
         {
