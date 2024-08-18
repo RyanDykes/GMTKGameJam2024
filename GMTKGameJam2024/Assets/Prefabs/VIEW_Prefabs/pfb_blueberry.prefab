@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5216434593305125873}
   - component: {fileID: 7256596374546145738}
   - component: {fileID: 7319011238761897448}
+  - component: {fileID: 1320403296651890926}
   m_Layer: 6
   m_Name: pfb_blueberry
   m_TagString: Untagged
@@ -165,3 +166,18 @@ MonoBehaviour:
   min: 0.33
   max: 0.85
   shouldRandomizeRotation: 1
+--- !u!114 &1320403296651890926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3001577300789393479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24c6e43e5925b8c45873c041ac58aefd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eatEffects:
+  - {fileID: 2114609089650027397, guid: 197315c851e282449b18458d6738e1f6, type: 3}
+  - {fileID: 1484490069548021454, guid: 3a3d9ac86f676f844a424840c7d8bd01, type: 3}

@@ -1,15 +1,19 @@
+using System.Collections.Generic;
 using UnityEngine;
 namespace roarke.interaction
 {
     public class Eatable : MonoBehaviour, IInteractable
     {
-        [SerializeField] ParticleSystem eatEffect;
+        [SerializeField] List<GameObject> eatEffects;
         public Vector3 Position => transform.position;
         public bool Interact(Transform interactionParent)
         {
-            if (eatEffect != null)
+            if (eatEffects.Count > 0)
             {
-                Instantiate(eatEffect, interactionParent.position, Quaternion.identity);
+                foreach (var effect in eatEffects)
+                { 
+                    Instantiate(effect, interactionParent.position, Quaternion.identity);
+                }
             }
             else
             {
