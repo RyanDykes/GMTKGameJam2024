@@ -164,3 +164,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eatEffects:
   - {fileID: 2114609089650027397, guid: 3951cf944382b5d4db50db4a91cbe77d, type: 3}
+  foodType: 1
