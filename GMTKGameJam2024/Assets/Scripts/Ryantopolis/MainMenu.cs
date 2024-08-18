@@ -48,7 +48,7 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        if (IsPlaying && (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Submit")))
+        if (IsPlaying && (Input.GetKeyDown(KeyCode.Escape)))
         {
             LoadMenu(menuOptions);
             return;
@@ -70,7 +70,7 @@ public class MainMenu : MonoBehaviour
             buttonClicked = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             if (inSettings)
                 SelectSettingsOption(menuIndex);
@@ -123,7 +123,6 @@ public class MainMenu : MonoBehaviour
     private void Play()
     {
         IsPlaying = true;
-
         GameUI.Instance.RevealUI();
 
         for (int i = 0; i < menuOptions.Count; i++)
