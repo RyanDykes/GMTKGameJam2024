@@ -181,3 +181,4 @@ MonoBehaviour:
   eatEffects:
   - {fileID: 2114609089650027397, guid: 197315c851e282449b18458d6738e1f6, type: 3}
   - {fileID: 1484490069548021454, guid: 3a3d9ac86f676f844a424840c7d8bd01, type: 3}
+  foodType: 2

@@ -140,7 +140,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24c6e43e5925b8c45873c041ac58aefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eatEffects: []
+  eatEffects:
+  - {fileID: 2114609089650027397, guid: 7093b1e760bc4814f92fcb3b685b1827, type: 3}
+  foodType: 3
 --- !u!64 &5682334796423335211
 MeshCollider:
   m_ObjectHideFlags: 0
