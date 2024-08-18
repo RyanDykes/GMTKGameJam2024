@@ -8,17 +8,18 @@ namespace roarke.feel
     {
         public static CameraShake instance;
         CinemachineVirtualCamera virtualCamera;
+        Transform target;
         private void Awake()
         {
             instance = this;
             virtualCamera = GetComponent<CinemachineVirtualCamera>();
+            target = virtualCamera.Follow;
         }
         public void Shake(float duration, float intensity, int vibrato, float randomness, Ease ease = Ease.Linear)
         {
             if (!Settings.ShouldUseCameraShake)
                 return;
 
-            var target = virtualCamera.Follow;
             virtualCamera.Follow = null;
             virtualCamera
                 .transform
