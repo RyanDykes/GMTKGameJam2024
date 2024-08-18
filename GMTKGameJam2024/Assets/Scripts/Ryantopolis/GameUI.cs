@@ -76,6 +76,9 @@ public class GameUI : MonoBehaviour
         StartTimeout();
         EatingUIAnimation();
 
+        if (SceneController.Instance.AtMaxEatingStage)
+            return;
+
         if (eatingCount >= maxEatingCount)
         {
             int collectableCount = SceneController.Instance.CollectableCount;
@@ -83,6 +86,7 @@ public class GameUI : MonoBehaviour
             {
                 collectableUI[collectableCount].UnlockCollectable();
                 SceneController.Instance.CollectableCount++;
+                SceneController.Instance.UpgradeFoodType();
                 SetEatingFood(SceneController.Instance.CollectableCount);
             }));
         }
@@ -94,6 +98,9 @@ public class GameUI : MonoBehaviour
 
     private void SetEatingFood(int collectableCount)
     {
+        if (SceneController.Instance.AtMaxEatingStage)
+            return;
+
         eatingCount = 0f;
         eatingFillImage.fillAmount = eatingCount / maxEatingCount;
         eatingFadedImage.sprite = eatingSprites[collectableCount];

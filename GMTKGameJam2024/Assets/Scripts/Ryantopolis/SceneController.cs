@@ -10,6 +10,7 @@ public class SceneController : MonoBehaviour
     public EatingFoods ActiveEatableFood { get; set; } = EatingFoods.Crumb;
 
     public int CollectableCount { get; set; } = 0;
+    public bool AtMaxEatingStage => CollectableCount >= 3;
 
     private void Awake()
     {
