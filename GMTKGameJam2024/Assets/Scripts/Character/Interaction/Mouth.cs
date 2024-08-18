@@ -15,7 +15,7 @@ namespace roarke.interaction
         List<IInteractable> overlappingInteractables = new List<IInteractable>(); //All possible rigidbodies current overlapping the mouth trigger collider
         public Carryable CurrentlyHeldBody { get; private set; } //Currently held rigidbody (can be null)
         public bool Holding => CurrentlyHeldBody != null;
-        public int Strength { get; private set; } = 3;
+        public int Strength { get; private set; } = 1;
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
