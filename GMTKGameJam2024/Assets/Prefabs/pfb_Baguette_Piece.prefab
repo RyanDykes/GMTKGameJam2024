@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 7496224526472497201}
   - component: {fileID: 6634681901354993565}
   - component: {fileID: 5812400027687990883}
-  m_Layer: 0
+  - component: {fileID: 4901499713774844520}
+  m_Layer: 3
   m_Name: pfb_Baguette_Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,3 +84,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &4901499713774844520
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3310468986222681672}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3.87
+  m_Height: 3.8331175
+  m_Direction: 1
+  m_Center: {x: -0.19, y: -0.19, z: 0.0000038146973}

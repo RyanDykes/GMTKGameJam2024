@@ -526,7 +526,7 @@ GameObject:
   - component: {fileID: 6868931951172026322}
   m_Layer: 0
   m_Name: pfb_Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -589,7 +589,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouth: {fileID: 123918154205288887}
-  isCarrying: 1
   groundDistance: 0.3
   groundLayer:
     serializedVersion: 2
