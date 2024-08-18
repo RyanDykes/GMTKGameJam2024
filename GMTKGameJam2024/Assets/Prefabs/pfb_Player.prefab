@@ -611,7 +611,7 @@ MonoBehaviour:
   - {fileID: 7869964975266472578}
   - {fileID: 8728178776430217166}
   - {fileID: 6817704570953151045}
-  speed: 2
+  speed: 2.2
   rotationSpeed: 10
 --- !u!1 &4720704325136514169
 GameObject:
