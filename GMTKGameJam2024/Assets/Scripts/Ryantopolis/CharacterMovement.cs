@@ -9,6 +9,8 @@ public class CharacterMovement : MonoBehaviour
 
     [Header("General")]
     [SerializeField] private Mouth mouth = null;
+    [SerializeField] private Animator characterAnimator;
+    readonly int walkingProperty = Animator.StringToHash("IsWalking");
     private bool isEncumbered => mouth.IsEncumbered();
 
     [Header("Rayacsts")]
@@ -45,11 +47,13 @@ public class CharacterMovement : MonoBehaviour
 
         if (inputDirection.magnitude > 0)
         {
+            
             Move();
             Rotate();
 
             LimitDistanceFromSurface();
         }
+        Animate(inputDirection.magnitude > 0);
 
         //If no ground is hit then fallback to basic movement and apply gravity
         Ray ray = new Ray(bodyRaycastOrigin.position, bodyRaycastOrigin.forward);
@@ -62,6 +66,10 @@ public class CharacterMovement : MonoBehaviour
         rbody.velocity = Vector3.zero;
     }
 
+    private void Animate(bool shouldWalk)
+    {
+        characterAnimator.SetBool(walkingProperty, shouldWalk);
+    }
     private void Move()
     {
         Vector3 moveDirection = TryCarry();
