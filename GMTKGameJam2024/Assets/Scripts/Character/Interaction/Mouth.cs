@@ -57,19 +57,20 @@ namespace roarke.interaction
                             Destroy(eatable.gameObject);
                             Strength++;
                             overlappingInteractables.Remove(closestInteractable);
-                            CameraShake.instance.Shake(.5f, 45, 15, 90);
+                            CameraShake.instance.Shake(.33f, .5f, 25, 90);
                         }
                         else
                         {
                             CurrentlyHeldBody = carryable;
                             closestInteractable.Interact(holdParent);
-                            CameraShake.instance.Shake(.5f, 45, 15, 90);
+                            CameraShake.instance.Shake(.15f, .05f, 33, 90);
                         }
                     }  
                     else
                     {
                         CurrentlyHeldBody = carryable;
                         closestInteractable.Interact(holdParent);
+                        CameraShake.instance.Shake(.15f, .05f, 33, 90);
                     }
                 }
             }
