@@ -27,8 +27,12 @@ public class SceneController : MonoBehaviour
         Instance = null;
     }
 
-    public void UnlockCollectable()
+    public void UpgradeFoodType()
     {
+        //Already at max eatable
+        if (ActiveEatableFood == EatingFoods.Strawberry)
+            return;
 
+        ActiveEatableFood++;
     }
 }

@@ -41,6 +41,9 @@ public class CharacterMovement : MonoBehaviour
 
     private void Update()
     {
+        if (!MainMenu.Instance.IsPlaying)
+            return;
+
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
         inputDirection = new Vector3(horizontal, 0f, vertical);
@@ -72,8 +75,7 @@ public class CharacterMovement : MonoBehaviour
     }
     private void Move()
     {
-        Vector3 moveDirection = TryCarry();
-        transform.localPosition += moveDirection * speed * Time.deltaTime;
+        transform.localPosition += transform.forward * speed * Time.deltaTime;
     }
 
     private void Rotate()
@@ -114,12 +116,6 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    private Vector3 TryCarry()
-    {
-        //return mouth.IsCarrying ? transform.forward : -transform.forward;
-        return isEncumbered ? -transform.forward : transform.forward;
-    }
-
     private Vector3 GetAverageNormals()
     {
         Vector3 surfaceNormal = transform.up;
@@ -128,14 +124,17 @@ public class CharacterMovement : MonoBehaviour
 
         foreach (Transform origin in raycastOrigins)
         {
-            //if (Physics.SphereCast(ray, out RaycastHit hit, raycastLength, groundLayer))
             if (Physics.SphereCast(origin.position, sphereCastSize, origin.forward, out RaycastHit hit, raycastLength, groundLayer))
             {
 #if UNITY_EDITOR
                 Debug.DrawRay(origin.position, origin.forward * raycastLength);
 #endif
-                averageNormal += hit.normal;
-                averageNormalCount++;
+                //Don't add the normals of anything you're carrying
+                if (mouth.CurrentlyHeldBody == null || hit.transform != mouth.CurrentlyHeldBody.transform)
+                {
+                    averageNormal += hit.normal;
+                    averageNormalCount++;
+                }
             }
         }
 

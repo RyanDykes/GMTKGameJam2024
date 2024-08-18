@@ -5,6 +5,9 @@ namespace roarke.interaction
     public class Eatable : MonoBehaviour, IInteractable
     {
         [SerializeField] List<GameObject> eatEffects;
+        [SerializeField] private SceneController.EatingFoods foodType = SceneController.EatingFoods.None;
+
+        public SceneController.EatingFoods FoodType => foodType;
         public Vector3 Position => transform.position;
         public bool Interact(Transform interactionParent)
         {
