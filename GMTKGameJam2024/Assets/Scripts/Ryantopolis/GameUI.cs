@@ -67,9 +67,11 @@ public class GameUI : MonoBehaviour
 
     public void EatFood(SceneController.EatingFoods foodType)
     {
+        if (foodType != SceneController.Instance.ActiveEatableFood)
+            return;
+
         eatingCount++;
-        if (foodType == SceneController.Instance.ActiveEatableFood)
-            eatingFillImage.fillAmount = eatingCount / maxEatingCount;
+        eatingFillImage.fillAmount = eatingCount / maxEatingCount;
 
         StartTimeout();
         EatingUIAnimation();

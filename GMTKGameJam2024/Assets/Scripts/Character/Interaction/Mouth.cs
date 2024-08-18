@@ -54,6 +54,7 @@ namespace roarke.interaction
                     {
                         if (eatable.Interact(holdParent))
                         {
+                            GameUI.Instance.EatFood(eatable.FoodType);
                             Destroy(eatable.gameObject);
                             Strength++;
                             overlappingInteractables.Remove(closestInteractable);
