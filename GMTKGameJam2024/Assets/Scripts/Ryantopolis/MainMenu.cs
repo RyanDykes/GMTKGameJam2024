@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    public static MainMenu Instance = null;
+
     public bool IsPlaying { get; private set; } = false;
 
     [SerializeField] private Image background = null;
@@ -17,6 +19,11 @@ public class MainMenu : MonoBehaviour
     private int menuIndex = 0;
 
     private bool inSettings = false;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -32,6 +39,11 @@ public class MainMenu : MonoBehaviour
         }
 
         LoadMenu(menuOptions);
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 
     private void Update()
@@ -80,15 +92,15 @@ public class MainMenu : MonoBehaviour
         switch (value)
         {
             case 0:
-                print("PLAY");
+                //print("PLAY");
                 Play();
                 break;
             case 1:
-                print("SETTINGS");
+                //print("SETTINGS");
                 Settings();
                 break;
             case 2:
-                print("EXIT");
+                //print("EXIT");
                 Exit();
                 break;
         }
@@ -99,10 +111,10 @@ public class MainMenu : MonoBehaviour
         switch (value)
         {
             case 0:
-                print("YEAH RIGHT");
+                //print("YEAH RIGHT");
                 break;
             case 1:
-                print("BACK");
+                //print("BACK");
                 Back();
                 break;
         }
@@ -111,6 +123,8 @@ public class MainMenu : MonoBehaviour
     private void Play()
     {
         IsPlaying = true;
+
+        GameUI.Instance.RevealUI();
 
         for (int i = 0; i < menuOptions.Count; i++)
         {
@@ -150,6 +164,8 @@ public class MainMenu : MonoBehaviour
     private void LoadMenu(List<RectTransform> newOptions)
     {
         IsPlaying = false;
+        GameUI.Instance.HideUI();
+
         activeOptions = new List<RectTransform>(newOptions);
 
         for (int i = 0; i < activeOptions.Count; i++)

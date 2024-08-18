@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: New Super Mario Font U SDF
+  m_Name: New Super Mario Font U SDF 1
   m_EditorClassIdentifier: 
-  hashCode: 928990738
+  hashCode: -1941367165
   material: {fileID: 7364560825796959377}
-  materialHashCode: -1464945806
+  materialHashCode: -1408446909
   m_Version: 1.1.0
   m_SourceFontFileGUID: 616ca58605bc54c4d8a5f3da867408cd
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 616ca58605bc54c4d8a5f3da867408cd, type: 3}
@@ -892,8 +892,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - UNDERLAY_ON
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -972,7 +971,7 @@ Material:
     - _TextureWidth: 1024
     - _UnderlayDilate: 0
     - _UnderlayOffsetX: 0
-    - _UnderlayOffsetY: -1
+    - _UnderlayOffsetY: -0.5
     - _UnderlaySoftness: 0
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
