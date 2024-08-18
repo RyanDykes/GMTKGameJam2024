@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 namespace roarke.interaction
 {
@@ -36,6 +37,8 @@ namespace roarke.interaction
             RB.drag = 10;
             RB.useGravity = false;
             RB.transform.parent = interactionParent;
+            transform.DOPunchScale(new Vector3(-.2f, -.2f, -.2f), .33f, 5, 5).SetEase(Ease.InOutExpo);
+            transform.DOShakeRotation(.33f, 25, 25, 90).SetEase(Ease.InOutExpo);
             return true;
         }
     }

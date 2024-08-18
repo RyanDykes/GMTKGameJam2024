@@ -9,7 +9,7 @@ public class CharacterMovement : MonoBehaviour
 
     [Header("General")]
     [SerializeField] private Mouth mouth = null;
-    [SerializeField] private bool isCarrying = true;
+    private bool isEncumbered => mouth.IsEncumbered();
 
     [Header("Rayacsts")]
     [SerializeField] private float groundDistance = 0.2f;
@@ -109,7 +109,7 @@ public class CharacterMovement : MonoBehaviour
     private Vector3 TryCarry()
     {
         //return mouth.IsCarrying ? transform.forward : -transform.forward;
-        return isCarrying ? transform.forward : -transform.forward;
+        return isEncumbered ? -transform.forward : transform.forward;
     }
 
     private Vector3 GetAverageNormals()

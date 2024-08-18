@@ -1,12 +1,14 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using roarke.feel;
+using DG.Tweening;
+
 namespace roarke.interaction
 {
     public class Mouth : MonoBehaviour
     {
         [SerializeField] LayerMask carryLayer;
-        
         [SerializeField] Transform holdParent;
         [SerializeField] float movePower = 25;
 
@@ -33,6 +35,10 @@ namespace roarke.interaction
             }
         }
 
+        public bool IsEncumbered()
+        {
+            return CurrentlyHeldBody != null && CurrentlyHeldBody.Weight + 2 >= Strength;
+        }
         //Pick up the closest overlapping rigidbody
         void Interact()
         {
@@ -51,17 +57,20 @@ namespace roarke.interaction
                             Destroy(eatable.gameObject);
                             Strength++;
                             overlappingInteractables.Remove(closestInteractable);
+                            CameraShake.instance.Shake(.33f, .5f, 25, 90);
                         }
                         else
                         {
                             CurrentlyHeldBody = carryable;
                             closestInteractable.Interact(holdParent);
+                            CameraShake.instance.Shake(.15f, .05f, 33, 90);
                         }
                     }  
                     else
                     {
                         CurrentlyHeldBody = carryable;
                         closestInteractable.Interact(holdParent);
+                        CameraShake.instance.Shake(.15f, .05f, 33, 90);
                     }
                 }
             }
